@@ -1,5 +1,7 @@
 # example-quil-cljs
 
+# [DEMO (click)](https://krist7599555.github.io/example-quil-cljs)
+
 A Quil sketch designed to ... well, that part is up to you.
 
 project create with
