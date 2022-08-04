@@ -1,0 +1,20 @@
+#!/bin/sh
+
+if [ $# -eq 1 ]; then
+BASE_DIR=$1
+else
+BASE_DIR=""
+fi
+
+if [[ "$BASE_DIR" =~ ^(/[^/]+)?$ ]]; then
+  echo "OK base dir = \"$BASE_DIR\""
+else
+  echo "ERROR base dir = \"$BASE_DIR\""
+  echo "base dir must be empty string or /[a-z0-9\-]+"
+  exit 1
+fi
+
+rm -rf ./docs
+lein do clean, cljsbuild once optimized;
+cp -r ./resources/public/ docs/;
+sed -i .backup "s/src=\"/src=\"${BASE_DIR/\//\\/}/" ./docs/index.html

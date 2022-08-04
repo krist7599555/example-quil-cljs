@@ -1,0 +1,24 @@
+#!/bin/sh
+
+function main_command() {
+  lein figwheel
+}
+
+temp_file=$(mktemp)
+
+function start_browser() {
+  while true; do
+    echo "wait start browser"
+    sleep 1
+    if [[ $(cat $temp_file) =~ "Successfully compiled build" ]]; then 
+      open "http://0.0.0.0:3449"
+      break
+    fi
+  done
+}
+(start_browser)&
+RUNNING_PID=$!
+
+(main_command) | tee $temp_file
+
+kill ${RUNNING_PID} 2>/dev/null
